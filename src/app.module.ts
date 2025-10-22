@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SleeperModule } from './sleeper/sleeper.module';
@@ -13,7 +13,15 @@ import { HttpModule } from '@nestjs/axios';
 import { AgentService } from './agent/agent.service';
 
 @Module({
-  imports: [ConfigModule.forRoot(), HttpModule, SleeperModule, OpenAIModule, LowDBModule, SystemPromptModule, ToolsModule],
+  imports: [
+    ConfigModule.forRoot(),
+    HttpModule,
+    SleeperModule,
+    OpenAIModule,
+    LowDBModule,
+    SystemPromptModule,
+    ToolsModule,
+  ],
   controllers: [AppController],
   providers: [AppService, LowDBService, SleeperService, AgentService],
 })
