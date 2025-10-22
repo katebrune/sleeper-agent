@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import OpenAI from 'openai';
 import { LowDBService } from 'src/lowdb/lowdb.service';
 import { OpenAIService } from 'src/openai/openai.service';
 import { ToolsService } from 'src/tools/tools.service';
@@ -25,16 +26,14 @@ export class AgentService {
       await this.lowdbService.addMessages([response]);
 
       if (response.content) {
-        // log message
-        return this.lowdbService.getMessages();
+        // return this.lowdbService.getMessages();
+        return response.content;
       }
 
       if (response.tool_calls) {
-        // log message
-
         for (const toolCall of response.tool_calls) {
           const toolResponse = await this.toolsService.runTool(
-            toolCall,
+            toolCall as OpenAI.Chat.Completions.ChatCompletionMessageFunctionToolCall,
             userMessage,
           );
           await this.lowdbService.saveToolResponse(toolCall.id, toolResponse);

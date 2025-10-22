@@ -7,6 +7,7 @@ import { GetSleeperRostersTool } from './get-sleeper-rosters.tool';
 import { GetSleeperPlayersTool } from './get-sleeper-players.tool';
 import { GetNflStateTool } from './get-nfl-state.tool';
 import { GetSleeperMatchupsTool } from './get-sleeper-matchups.tool';
+import { WebSearchTool } from './web-search-tool';
 
 @Injectable()
 export class ToolsService {
@@ -19,6 +20,7 @@ export class ToolsService {
     private readonly getSleeperPlayersTool: GetSleeperPlayersTool,
     private readonly getNflStateTool: GetNflStateTool,
     private readonly getSleeperMatchupsTool: GetSleeperMatchupsTool,
+    private readonly webSearchTool: WebSearchTool,
   ) {
     this.tools.set(
       this.getSleeperUserInfoTool.name,
@@ -32,6 +34,7 @@ export class ToolsService {
       this.getSleeperMatchupsTool.name,
       this.getSleeperMatchupsTool,
     );
+    this.tools.set(this.webSearchTool.name, this.webSearchTool);
   }
 
   getTools(): OpenAI.Chat.Completions.ChatCompletionTool[] {

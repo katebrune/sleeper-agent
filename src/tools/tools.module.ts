@@ -11,9 +11,11 @@ import { LowDBModule } from 'src/lowdb/lowdb.module';
 import { LowDBService } from 'src/lowdb/lowdb.service';
 import { GetNflStateTool } from './get-nfl-state.tool';
 import { GetSleeperMatchupsTool } from './get-sleeper-matchups.tool';
+import { WebSearchTool } from './web-search-tool';
+import { WebSearchModule } from 'src/web-search/web-search.module';
 
 @Module({
-  imports: [SleeperModule, HttpModule, LowDBModule],
+  imports: [SleeperModule, HttpModule, LowDBModule, WebSearchModule],
   controllers: [],
   providers: [
     ToolsService,
@@ -25,6 +27,7 @@ import { GetSleeperMatchupsTool } from './get-sleeper-matchups.tool';
     GetSleeperPlayersTool,
     GetNflStateTool,
     GetSleeperMatchupsTool,
+    WebSearchTool,
   ],
   exports: [ToolsService],
 })

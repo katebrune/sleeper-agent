@@ -1,6 +1,6 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AppService } from './app.service';
-import { AIMessage } from './openai/openai.types';
+// import { AIMessage } from './openai/openai.types';
 import { AgentService } from './agent/agent.service';
 
 class PromptDto {
@@ -15,13 +15,16 @@ export class AppController {
   ) {}
 
   @Post('seedplayers')
+  // eslint-disable-next-line @typescript-eslint/require-await
   async seedPlayersData(): Promise<void> {
+    // this should only be called at most once a day
     throw new Error('Data already seeded');
-    await this.appService.seedPlayersData();
+    // await this.appService.seedPlayersData();
   }
 
   @Post('prompt')
-  async prompt(@Body() promptDto: PromptDto): Promise<AIMessage[]> {
+  @HttpCode(HttpStatus.OK)
+  async prompt(@Body() promptDto: PromptDto): Promise<string> {
     const response = await this.agentService.run(promptDto.message);
     return response;
   }
