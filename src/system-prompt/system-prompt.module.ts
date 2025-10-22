@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common'
+import { Module } from '@nestjs/common';
 import { SystemPromptService } from './system-prompt.service';
 
 @Module({
-    imports: [],
-    controllers: [],
-    providers: [SystemPromptService],
-    exports: [SystemPromptService]
+  imports: [],
+  controllers: [],
+  providers: [SystemPromptService],
+  exports: [SystemPromptService],
 })
 export class SystemPromptModule {}

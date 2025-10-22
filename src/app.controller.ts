@@ -4,25 +4,25 @@ import { AIMessage } from './openai/openai.types';
 import { AgentService } from './agent/agent.service';
 
 class PromptDto {
-  message: string
+  message: string;
 }
 
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly agentService: AgentService
+    private readonly agentService: AgentService,
   ) {}
 
   @Post('seedplayers')
   async seedPlayersData(): Promise<void> {
-    throw new Error('Data already seeded')
-    await this.appService.seedPlayersData()
+    throw new Error('Data already seeded');
+    await this.appService.seedPlayersData();
   }
 
   @Post('prompt')
   async prompt(@Body() promptDto: PromptDto): Promise<AIMessage[]> {
-    const response = await this.agentService.run(promptDto.message)
-    return response
+    const response = await this.agentService.run(promptDto.message);
+    return response;
   }
 }

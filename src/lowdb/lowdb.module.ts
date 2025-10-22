@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common'
-import { LowDBService } from './lowdb.service'
+import { Module } from '@nestjs/common';
+import { LowDBService } from './lowdb.service';
 
 @Module({
-    imports: [],
-    controllers: [],
-    providers: [LowDBService],
-    exports: [LowDBService]
+  imports: [],
+  controllers: [],
+  providers: [LowDBService],
+  exports: [LowDBService],
 })
 export class LowDBModule {}
