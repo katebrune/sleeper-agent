@@ -1,6 +1,5 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AppService } from './app.service';
-// import { AIMessage } from './openai/openai.types';
 import { AgentService } from './agent/agent.service';
 
 class PromptDto {

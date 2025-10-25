@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import OpenAI from 'openai';
-import { AIMessage } from './openai.types';
+import { ResponseCreateParamsBase } from 'openai/resources/responses/responses.js';
 import { SystemPromptService } from 'src/system-prompt/system-prompt.service';
-import { ToolsService } from 'src/tools/tools.service';
 
 @Injectable()
 export class OpenAIService {
@@ -10,26 +9,32 @@ export class OpenAIService {
 
   constructor(
     private readonly systemPromptService: SystemPromptService,
-    private readonly toolsService: ToolsService,
   ) {
     this.client = new OpenAI({
       apiKey: process.env['OPENAI_API_KEY'],
     });
   }
 
-  async runLLM({ messages }: { messages: AIMessage[] }) {
-    const response = await this.client.chat.completions.create({
+  async createResponse(input: OpenAI.Responses.ResponseInputItem[]): Promise<OpenAI.Responses.Response>{
+    const response = await this.client.responses.create({
+      input: input,
+      instructions: this.systemPromptService.getPrompt(),
       model: 'gpt-4o-mini',
       temperature: 0.1,
-      messages: [
-        { role: 'system', content: this.systemPromptService.getPrompt() },
-        ...messages,
+      tools: [
+        { type: 'web_search' },
+        {
+          type: 'mcp',
+          server_label: 'sleeper-agent-mcp',
+          server_description: 'A Sleeper MCP server to assist with fantasy football questions',
+          server_url: process.env['SLEEPER_MCP_URL'],
+          require_approval: 'never'
+        }
       ],
-      tools: this.toolsService.getTools(),
       tool_choice: 'auto',
       parallel_tool_calls: false,
     });
 
-    return response.choices[0].message;
+    return response
   }
 }

@@ -2,8 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JSONFilePreset } from 'lowdb/node';
 import type { Low } from 'lowdb';
 import { v4 as uuidv4 } from 'uuid';
-import type { Data, MessageWithMetadata } from './lowdb.types';
-import { AIMessage } from 'src/openai/openai.types';
+import type { AIMessage, Data, MessageWithMetadata } from './lowdb.types';
 import { SleeperPlayer } from 'src/sleeper/sleeper.types';
 
 @Injectable()
@@ -26,14 +25,14 @@ export class LowDBService {
   private addMetadata(message: AIMessage): MessageWithMetadata {
     return {
       ...message,
-      id: uuidv4(),
-      createdAt: new Date().toISOString(),
+      _id: uuidv4(),
+      _createdAt: new Date().toISOString(),
     };
   }
 
   private removeMetadata(message: MessageWithMetadata): AIMessage {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, createdAt, ...rest } = message;
+    const { _id, _createdAt, ...rest } = message;
     return rest;
   }
 
@@ -48,16 +47,6 @@ export class LowDBService {
   async getMessages(): Promise<AIMessage[]> {
     const db = await this.getDb();
     return db.data.messages.map((message) => this.removeMetadata(message));
-  }
-
-  async saveToolResponse(toolCallId: string, toolResponse: string) {
-    return this.addMessages([
-      {
-        role: 'tool',
-        content: toolResponse,
-        tool_call_id: toolCallId,
-      },
-    ]);
   }
 
   async addPlayers(players: { [key: string]: SleeperPlayer }): Promise<void> {

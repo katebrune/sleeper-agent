@@ -1,4 +1,4 @@
-import type { AIMessage } from 'src/openai/openai.types';
+import type OpenAI from 'openai';
 import type { SleeperPlayer } from 'src/sleeper/sleeper.types';
 
 export type Data = {
@@ -6,7 +6,10 @@ export type Data = {
   players: { [key: string]: SleeperPlayer };
 };
 
+export type AIMessage = OpenAI.Responses.ResponseInputItem
+
 export type MessageWithMetadata = AIMessage & {
-  id: string;
-  createdAt: string;
+  _id: string;
+  _createdAt: string;
 };
+

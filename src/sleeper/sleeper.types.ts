@@ -27,6 +27,7 @@ export type SleeperLeague = {
   league_id: string;
   draft_id: string;
   avatar: string;
+  playoff_teams: number;
 };
 
 export type FindRostersArgs = {
@@ -36,7 +37,7 @@ export type FindRostersArgs = {
 export type SleeperRoster = {
   starters: string[];
   settings: {
-    winds: number;
+    wins: number;
     waiver_position: number;
     total_moves: number;
     ties: number;
@@ -51,6 +52,7 @@ export type SleeperRoster = {
   players: string[];
   owner_id: string;
   league_id: string;
+  taxi: string[];
 };
 
 export type FindMatchupsArgs = {
